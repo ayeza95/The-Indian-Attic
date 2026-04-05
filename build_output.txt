@@ -1,0 +1,25 @@
+
+> the-indian-attic@0.1.0 build
+> next build
+
+▲ Next.js 16.1.1 (Turbopack)
+- Environments: .env.local
+- Experiments (use with caution):
+  · serverActions
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 8.4s
+  Running TypeScript ...
+Failed to compile.
+
+./models/Product.ts:216:9
+Type error: Object literal may only specify known properties, and 'isHidden' does not exist in type '{ name?: SchemaDefinitionProperty<string, IProduct, Document<unknown, {}, FlatRecord<IProduct>, {}, ResolveSchemaOptions<DefaultSchemaOptions>> & FlatRecord<...> & Required<...> & { ...; }> | undefined; ... 33 more ...; id?: SchemaDefinitionProperty<...> | undefined; }'.
+
+[0m [90m 214 |[39m             [36mdefault[39m[33m:[39m [36mfalse[39m[33m,[39m
+ [90m 215 |[39m         }[33m,[39m
+[31m[1m>[22m[39m[90m 216 |[39m         isHidden[33m:[39m {
+ [90m     |[39m         [31m[1m^[22m[39m
+ [90m 217 |[39m             type[33m:[39m [33mBoolean[39m[33m,[39m
+ [90m 218 |[39m             [36mdefault[39m[33m:[39m [36mfalse[39m[33m,[39m
+ [90m 219 |[39m         }[33m,[39m[0m
+Next.js build worker exited with code: 1 and signal: null

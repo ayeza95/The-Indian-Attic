@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 20% 98%;
+    --foreground: 30 10% 5%;
+    /* Darker black for better readability */
+    --card: 30 20% 100%;
+    --card-foreground: 30 10% 5%;
+    --popover: 30 20% 100%;
+    --popover-foreground: 30 10% 5%;
+    --primary: 24 85% 45%;
+    /* Slightly darker orange for better contrast */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 30 15% 92%;
+    --secondary-foreground: 30 10% 15%;
+    --muted: 30 15% 95%;
+    --muted-foreground: 30 8% 45%;
+    --accent: 24 85% 53%;
+    --accent-foreground: 30 5% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 30 5% 98%;
+    --border: 30 20% 88%;
+    --input: 30 20% 88%;
+    --ring: 24 85% 53%;
+    --radius: 0.5rem;
+    --chart-1: 24 85% 53%;
+    --chart-2: 39 90% 60%;
+    --chart-3: 221 83% 53%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Custom scrollbar */
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-heritage-400 rounded-full;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    @apply bg-heritage-500;
+  }
+}
+
+/* Heritage-focused typography */
+@layer components {
+  .text-heritage {
+    @apply text-heritage-950 dark:text-heritage-100;
+  }
+
+  .heading-display {
+    @apply font-display text-5xl md:text-6xl lg:text-7xl font-bold text-heritage-900 dark:text-heritage-100;
+  }
+
+  .heading-section {
+    @apply font-display text-3xl md:text-4xl lg:text-5xl font-semibold text-heritage-800 dark:text-heritage-200;
+  }
+
+  .text-story {
+    @apply text-base md:text-lg leading-relaxed text-heritage-900 dark:text-heritage-200 font-medium;
+  }
+
+  .text-gold {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600;
+  }
+
+  .border-gold {
+    @apply border-gold-300;
+  }
+
+  /* Global Hover Animations */
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  [role="button"] {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  button:not(:disabled):hover,
+  [role="button"]:hover {
+    @apply transform -translate-y-0.5 shadow-[0_0_15px_hsl(var(--primary)/0.5)];
+    @apply shadow-[0_0_15px_hsl(var(--primary)/0.5)];
+  }
+
+  a:hover {
+    text-shadow: 0 0 10px hsl(var(--primary)/0.6);
+    @apply transition-all duration-300;
+  }
+
+  input:hover,
+  select:hover,
+  textarea:hover {
+    @apply border-heritage-400 shadow-[0_0_10px_hsl(var(--primary)/0.3)];
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    @apply transform scale-[1.01] shadow-[0_0_15px_hsl(var(--primary)/0.4)] border-heritage-500 ring-0;
+  }
+}

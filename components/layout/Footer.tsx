@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Facebook, Instagram, Twitter, Mail } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function Footer() {
     return (
@@ -20,7 +21,7 @@ export default function Footer() {
                             <a href="#" className="hover:text-white transition-colors"><Instagram className="h-5 w-5" /></a>
                             <a href="#" className="hover:text-white transition-colors"><Facebook className="h-5 w-5" /></a>
                             <a href="#" className="hover:text-white transition-colors"><Twitter className="h-5 w-5" /></a>
-                            <a href="mailto:ayezafatima17.24@gmail.com" className="hover:text-white transition-colors"><Mail className="h-5 w-5" /></a>
+                            <Link href="/contact" className="hover:text-white transition-colors"><Mail className="h-5 w-5" /></Link>
                         </div>
                     </div>
 
@@ -52,15 +53,46 @@ export default function Footer() {
                         <p className="text-sm text-heritage-300 mb-4">
                             Join our community to hear about new artisan collections and stories.
                         </p>
-                        <form className="flex gap-2" action="mailto:ayezafatima17.24@gmail.com" method="post" encType="text/plain">
+                        <form 
+                            className="flex gap-2" 
+                            onSubmit={async (e) => {
+                                e.preventDefault();
+                                const form = e.currentTarget;
+                                const formData = new FormData(form);
+                                const email = formData.get('email');
+                                if (!email) return;
+
+                                try {
+                                    const response = await fetch('/api/send', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                            email,
+                                            subject: 'Newsletter Subscription',
+                                            message: 'New user wants to join the newsletter community.',
+                                            type: 'Newsletter'
+                                        }),
+                                    });
+                                    if (response.ok) {
+                                        toast.success('Thank you for joining our community!');
+                                        form.reset();
+                                    } else {
+                                        toast.error('Failed to join. Please try again.');
+                                    }
+                                } catch (error) {
+                                    toast.error('Something went wrong.');
+                                    console.error('Failed to join newsletter', error);
+                                }
+                            }}
+                        >
                             <input
                                 type="email"
                                 name="email"
                                 placeholder="Email address"
                                 className="bg-heritage-800 border-none text-white placeholder:text-heritage-400 text-sm rounded px-3 py-2 w-full focus:ring-1 focus:ring-heritage-500"
-                                suppressHydrationWarning
+                                required
                             />
-                            <button type="submit" className="bg-terracotta-600 hover:bg-terracotta-700 text-white px-3 py-2 rounded text-sm font-medium transition-colors" suppressHydrationWarning>
+                            <button type="submit" className="bg-terracotta-600 hover:bg-terracotta-700 text-white px-3 py-2 rounded text-sm font-medium transition-colors">
                                 Join
                             </button>
                         </form>

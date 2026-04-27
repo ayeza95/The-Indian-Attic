@@ -53,7 +53,7 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
             image: product.image,
             maxStock: product.maxStock,
             quantity: 1,
-        });
+        } as any);
 
         if (success) {
             toast.success(`Added ${product.name} to cart`, {

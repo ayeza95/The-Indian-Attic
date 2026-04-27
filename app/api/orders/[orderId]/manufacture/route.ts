@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 
 export async function POST(
     request: NextRequest,
-    { params }: { params: { orderId: string } }
+    { params }: { params: Promise<{ orderId: string }> }
 ) {
     try {
         const session = await auth();
@@ -23,6 +23,9 @@ export async function POST(
         const { orderId } = await params;
 
         const currentUser = await User.findOne({ email: session.user.email });
+        if (!currentUser) {
+            return NextResponse.json({ error: 'User not found' }, { status: 404 });
+        }
 
         if (currentUser.role !== 'artisan') {
             return NextResponse.json({ error: 'Only artisans can set manufacture dates' }, { status: 403 });

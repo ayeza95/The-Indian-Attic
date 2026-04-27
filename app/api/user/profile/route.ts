@@ -66,7 +66,11 @@ export async function PUT(req: NextRequest) {
 
         const updateData: any = {};
         if (name) updateData.name = name;
-        if (phone !== undefined) updateData.phone = phone;
+        if (phone !== undefined) {
+            // Server-side validation: only 10 digits
+            const cleanedPhone = phone.replace(/\D/g, '').slice(0, 10);
+            updateData.phone = cleanedPhone;
+        }
         if (businessName !== undefined) updateData.businessName = businessName;
 
         // Handle Buyer Preferences

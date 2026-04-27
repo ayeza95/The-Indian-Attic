@@ -127,9 +127,12 @@ export default function RegisterPage() {
                                 id="phone"
                                 name="phone"
                                 type="tel"
-                                placeholder="+91 1234567890"
+                                placeholder="10-digit number"
                                 value={formData.phone}
-                                onChange={handleChange}
+                                onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
+                                maxLength={10}
+                                pattern="\d{10}"
+                                className="bg-heritage-50/50 border-heritage-100 focus:border-terracotta-300 focus:ring-terracotta-200"
                             />
                         </div>
 

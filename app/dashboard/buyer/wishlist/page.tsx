@@ -109,7 +109,8 @@ export default function WishlistPage() {
                                         name: product.name,
                                         price: product.price,
                                         image: product.images?.[0] || '',
-                                        maxStock: product.stockQuantity || 0
+                                        maxStock: product.stockQuantity || 0,
+                                        availabilityType: (product as any).availabilityType || "in_stock"
                                     }}
                                 />
                             </CardFooter>

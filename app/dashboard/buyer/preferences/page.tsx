@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -121,6 +121,11 @@ export default function BuyerPreferences() {
                 <Card>
                     <CardHeader>
                         <CardTitle>Personalize Your Experience</CardTitle>
+                        <CardDescription>
+                            Tell us a bit about your cultural background and interests. We use this information to 
+                            personalize your feed, recommend crafts from your home state, and notify you about 
+                            relevant festive collections.
+                        </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit} className="space-y-4">

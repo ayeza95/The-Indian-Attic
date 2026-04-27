@@ -211,7 +211,16 @@ export default function ArtisanOrders() {
                                                 Mfg: {new Date((item as any).manufactureDate).toLocaleDateString()}
                                             </span>
                                         ) : (
-                                            <Badge variant="outline" className="text-blue-600 border-blue-200">Pending Date</Badge>
+                                            <div className="flex flex-col gap-1">
+                                                {!['shipped', 'delivered', 'cancelled'].includes(order.status) && (
+                                                    <Badge variant="outline" className="text-blue-600 border-blue-200">
+                                                        Pending Date
+                                                    </Badge>
+                                                )}
+                                                {!['shipped', 'delivered', 'cancelled'].includes(order.status) && (
+                                                    <p className="text-[9px] text-blue-500 italic">Please set an estimated manufacture completion date below.</p>
+                                                )}
+                                            </div>
                                         )}
                                     </div>
                                     {!(item as any).manufactureDate && ['pending', 'confirmed', 'processing'].includes(order.status) && (

@@ -160,9 +160,9 @@ export default function HelpPage() {
                             </p>
 
                             <div className="space-y-4">
-                                <Link href="mailto:ayezafatima17.24@gmail.com?subject=General Inquiry" className="block">
+                                <Link href="/contact?subject=General Inquiry" className="block">
                                     <Button variant="outline" className="w-full border-gold-300 text-gold-700 hover:bg-gold-50 transition-colors flex items-center justify-center gap-2 h-12 font-medium">
-                                        <Mail className="h-4 w-4" /> Email Us
+                                        <Mail className="h-4 w-4" /> Message Us
                                     </Button>
                                 </Link>
                             </div>

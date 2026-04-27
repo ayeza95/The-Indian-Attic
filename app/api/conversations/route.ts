@@ -28,8 +28,8 @@ export async function GET(request: NextRequest) {
                 { seller: currentUser._id }
             ]
         })
-            .populate('buyer', 'name email avatar')
-            .populate('seller', 'name email avatar businessName')
+            .populate('buyer', 'name email avatar role')
+            .populate('seller', 'name email avatar businessName role')
             .populate('product', 'name images')
             .sort({ lastMessageAt: -1 })
             .lean();
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
                 ? conv.seller._id
                 : conv.buyer._id;
 
-            const otherUser = conv.buyer._id.toString() === currentUser._id.toString()
+            const otherUser: any = conv.buyer._id.toString() === currentUser._id.toString()
                 ? conv.seller
                 : conv.buyer;
 
@@ -48,9 +48,15 @@ export async function GET(request: NextRequest) {
                 (msg: any) => msg.sender.toString() !== currentUser._id.toString() && !msg.read
             ).length;
 
+            // Force "Admin" name for all admin users to ensure consistency
+            const finalOtherUser = otherUser ? {
+                ...otherUser,
+                name: otherUser.role === 'admin' ? 'Admin' : otherUser.name
+            } : otherUser;
+
             return {
                 ...conv,
-                otherUser,
+                otherUser: finalOtherUser,
                 unreadCount
             };
         });
@@ -105,7 +111,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Check if conversation already exists
-        let conversation = await Conversation.findOne({
+        let conversation: any = await Conversation.findOne({
             buyer: buyerId,
             seller: sellerId,
             ...(productId && { product: productId })

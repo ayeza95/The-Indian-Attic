@@ -38,6 +38,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                             role: 'admin',
                             isActive: true
                         });
+                    } else if (dbAdmin.name !== admin.name) {
+                        // Update name if it changed (e.g. from Super Admin to Admin)
+                        dbAdmin.name = admin.name;
+                        await dbAdmin.save();
                     }
 
                     return {
@@ -107,6 +111,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 await connectDB();
                 const dbUser = await User.findById(token.id);
                 if (dbUser) {
+                    // Update legacy "Super Admin" name if found
+                    if (dbUser.name === "Super Admin") {
+                        dbUser.name = "Admin";
+                        await dbUser.save();
+                    }
                     token.name = dbUser.name;
                     token.phone = dbUser.phone;
                     token.businessName = dbUser.businessName;
@@ -134,5 +143,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     session: {
         strategy: 'jwt',
     },
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
+    trustHost: true,
 });

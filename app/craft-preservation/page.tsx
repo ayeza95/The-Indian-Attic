@@ -7,7 +7,8 @@ export default function CraftPreservationPage() {
         <div className="min-h-screen bg-heritage-50 pb-20">
             <section className="bg-heritage-900 text-white py-20">
                 <div className="container mx-auto px-4 text-center">
-                    <h1 className="heading-display text-4xl md:text-6xl mb-6">Preserving Endangered Crafts</h1>
+                    <span className="text-gold-400 font-bold tracking-[0.3em] uppercase text-xs mb-4 block">OUR STORY</span>
+                    <h1 className="heading-section text-white text-2xl md:text-4xl lg:text-6xl font-semibold mb-6 leading-tight">Bridging Heritage & Modernity</h1>
                     <p className="text-xl text-heritage-200 max-w-3xl mx-auto font-light">
                         Our mission is to save India's dying art forms from extinction by creating sustainable livelihoods for the last generation of masters.
                     </p>
@@ -104,9 +105,11 @@ export default function CraftPreservationPage() {
                         Every purchase you make acts as a vote for the survival of these crafts.
                         We also contribute 5% of our profits directly to craft preservation foundations.
                     </p>
-                    <Button size="lg" className="bg-terracotta-600 hover:bg-terracotta-700 text-white px-8">
-                        Donate to Heritage Fund
-                    </Button>
+                    <Link href="/contact?subject=Heritage Fund Donation">
+                        <Button size="lg" className="bg-terracotta-600 hover:bg-terracotta-700 text-white px-8">
+                            Donate to Heritage Fund
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </div>

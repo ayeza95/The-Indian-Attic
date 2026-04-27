@@ -88,7 +88,7 @@ export default function UserList({
                                 {/* Avatar */}
                                 <div className="relative">
                                     <div className="w-12 h-12 rounded-full bg-heritage-100 flex items-center justify-center text-heritage-700 font-semibold text-lg flex-shrink-0">
-                                        {conv.otherUser?.name.charAt(0).toUpperCase()}
+                                        {(conv.otherUser as any)?.role === 'admin' ? 'A' : conv.otherUser?.name.charAt(0).toUpperCase()}
                                     </div>
                                     {conv.otherUser?.isOnline && (
                                         <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
@@ -99,7 +99,7 @@ export default function UserList({
                                 <div className="flex-1 min-w-0 text-left">
                                     <div className="flex items-center justify-between mb-1">
                                         <p className="font-semibold text-sm truncate">
-                                            {conv.otherUser?.name}
+                                            {(conv.otherUser as any)?.role === 'admin' ? 'Admin' : conv.otherUser?.name}
                                         </p>
                                         {lastMessage && (
                                             <span className="text-xs text-gray-500 flex-shrink-0 ml-2">

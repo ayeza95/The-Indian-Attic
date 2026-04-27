@@ -17,9 +17,10 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
     return (
-        <Link href={`/products/${product._id}`}>
-            <Card className="group overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div className="relative aspect-square overflow-hidden">
+        <Link href={`/products/${product._id}`} className="flex h-full">
+            <Card className="group overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col w-full h-full">
+                {/* Fixed-height image */}
+                <div className="relative aspect-square overflow-hidden flex-shrink-0">
                     <Image
                         src={product.images && product.images.length > 0 ? product.images[0] : '/placeholder-product.jpg'}
                         alt={product.name}
@@ -33,33 +34,34 @@ export default function ProductCard({ product }: ProductCardProps) {
                     )}
                 </div>
 
-                <CardContent className="p-4">
-                    <div className="space-y-2">
-                        <div className="flex items-start justify-between gap-2">
-                            <h3 className="font-display text-lg font-semibold text-heritage-900 line-clamp-2 group-hover:text-heritage-700 transition-colors">
-                                {product.name}
-                            </h3>
-                            <CraftStatusBadge status={product.craftStatus} showIcon={false} />
-                        </div>
-
-                        <p className="text-sm text-heritage-600">
-                            {product.state?.name || 'Unknown State'}
-                        </p>
-
-                        <p className="text-sm text-heritage-700 line-clamp-2">
-                            {product.description}
-                        </p>
+                {/* Content grows to fill remaining space */}
+                <CardContent className="p-4 flex-1 flex flex-col">
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                        <h3 className="font-display text-base font-semibold text-heritage-900 line-clamp-2 group-hover:text-heritage-700 transition-colors leading-snug flex-1 min-h-[2.8rem]">
+                            {product.name}
+                        </h3>
+                        <CraftStatusBadge status={product.craftStatus} showIcon={false} />
                     </div>
+
+                    <p className="text-sm text-heritage-600 mb-1">
+                        {product.state?.name || 'Unknown State'}
+                    </p>
+
+                    {/* Description takes up remaining space */}
+                    <p className="text-sm text-heritage-700 line-clamp-2 flex-1">
+                        {product.description}
+                    </p>
                 </CardContent>
 
-                <CardFooter className="p-4 pt-0">
+                {/* Footer always at bottom */}
+                <CardFooter className="p-4 pt-0 flex-shrink-0">
                     <div className="flex items-center justify-between w-full">
                         <span className="text-xl font-bold text-heritage-900">
                             {formatPrice(product.price)}
                         </span>
                         {product.availabilityType !== 'in_stock' && (
-                            <span className="text-xs text-heritage-600 capitalize">
-                                {product.availabilityType.replace('_', ' ')}
+                            <span className="text-xs text-heritage-600 capitalize bg-heritage-50 px-2 py-0.5 rounded">
+                                {product.availabilityType === 'pre_order' ? 'Pre Order' : product.availabilityType.replace('_', ' ')}
                             </span>
                         )}
                     </div>

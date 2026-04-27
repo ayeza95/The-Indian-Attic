@@ -58,8 +58,8 @@ export default function ArtisanProfile() {
             });
 
             if (response.ok) {
-                // Trigger session update
-                await update();
+                // Trigger session update with new data
+                await update({ name: formData.name, phone: formData.phone });
                 setMessage('Profile updated successfully');
                 setEditing(false);
             } else {
@@ -172,9 +172,11 @@ export default function ArtisanProfile() {
                                     <label className="text-sm font-medium">Phone</label>
                                     <Input
                                         value={formData.phone}
-                                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                        onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
                                         disabled={!editing}
-                                        placeholder="Add your phone number"
+                                        placeholder="10-digit phone number"
+                                        maxLength={10}
+                                        pattern="\d{10}"
                                     />
                                 </div>
 

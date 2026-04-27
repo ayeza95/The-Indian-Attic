@@ -3,9 +3,49 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Mail, MapPin, Phone, Send, Clock } from 'lucide-react';
+import { Mail, MapPin, Phone, Send, Clock, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
+import { useState } from 'react';
 
 export default function ContactPage() {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+
+        const form = e.currentTarget;
+        const formData = new FormData(form);
+        const data = {
+            firstName: formData.get('firstName'),
+            lastName: formData.get('lastName'),
+            email: formData.get('email'),
+            subject: formData.get('subject'),
+            message: formData.get('message'),
+            type: 'Contact Form'
+        };
+
+        try {
+            const response = await fetch('/api/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                toast.success('Message sent successfully! We will get back to you soon.');
+                form.reset();
+            } else {
+                const errorData = await response.json();
+                toast.error(errorData.error?.message || 'Failed to send message. Please try again.');
+            }
+        } catch (error) {
+            toast.error('An error occurred. Please try again later.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-heritage-50">
             {/* Header */}
@@ -49,8 +89,8 @@ export default function ContactPage() {
                                             <div>
                                                 <p className="font-bold text-heritage-900 mb-1">Email Us</p>
                                                 <p className="text-heritage-600 text-sm">
-                                                    <a href="mailto:ayezafatima17.24@gmail.com" className="text-gold-600 hover:underline font-medium">support@indianattic.com</a><br />
-                                                    <a href="mailto:ayezafatima17.24@gmail.com" className="text-gold-600 hover:underline font-medium">partnerships@indianattic.com</a>
+                                                    <span className="text-gold-600 font-medium">support@indianattic.com</span><br />
+                                                    <span className="text-gold-600 font-medium">partnerships@indianattic.com</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -92,15 +132,7 @@ export default function ContactPage() {
                                 <h2 className="text-3xl font-display text-heritage-900 mb-6">Send us a Message</h2>
                                 <form
                                     className="space-y-6"
-                                    onSubmit={(e) => {
-                                        e.preventDefault();
-                                        const form = e.currentTarget;
-                                        const formData = new FormData(form);
-                                        const subject = formData.get('subject') as string;
-                                        const body = `Name: ${formData.get('firstName') || ''} ${formData.get('lastName') || ''}\nEmail: ${formData.get('email') || ''}\n\nMessage:\n${formData.get('message') || ''}`;
-                                        window.location.href = `mailto:ayezafatima17.24@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                                        form.reset();
-                                    }}
+                                    onSubmit={handleSubmit}
                                 >
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
@@ -155,8 +187,18 @@ export default function ContactPage() {
                                         />
                                     </div>
 
-                                    <Button type="submit" className="w-full bg-heritage-900 hover:bg-heritage-800 text-gold-50 h-12 text-lg font-medium shadow-lg hover:shadow-xl transition-all" size="lg">
-                                        <Send className="h-4 w-4 mr-2" /> Send Message
+                                    <Button
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                        className="w-full bg-heritage-900 hover:bg-heritage-800 text-gold-50 h-12 text-lg font-medium shadow-lg hover:shadow-xl transition-all"
+                                        size="lg"
+                                    >
+                                        {isSubmitting ? (
+                                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                                        ) : (
+                                            <Send className="h-4 w-4 mr-2" />
+                                        )}
+                                        {isSubmitting ? 'Sending...' : 'Send Message'}
                                     </Button>
                                 </form>
                             </CardContent>

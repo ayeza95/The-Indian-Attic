@@ -175,7 +175,7 @@ export default function ArtisanProducts() {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {products.map((product) => (
-                            <Card key={product._id} className="overflow-hidden">
+                            <Card key={product._id} className="overflow-hidden flex flex-col">
                                 <div className="relative h-48 w-full">
                                     <Image
                                         src={product.images[0] || '/placeholder.jpg'}
@@ -202,7 +202,7 @@ export default function ArtisanProducts() {
                                         {product.state?.name}
                                     </p>
                                 </CardHeader>
-                                <CardContent>
+                                <CardContent className="flex-1 flex flex-col">
                                     <p className="text-sm text-gray-600 mb-4 line-clamp-2">
                                         {product.description}
                                     </p>
@@ -214,7 +214,7 @@ export default function ArtisanProducts() {
                                             {product.craftStatus}
                                         </span>
                                     </div>
-                                    <div className="flex flex-col gap-2">
+                                    <div className="mt-auto flex flex-col gap-2">
                                         <div className="flex gap-2">
                                             <Link href={`/dashboard/artisan/products/${product._id}/edit`} className="flex-1">
                                                 <Button variant="outline" className="w-full" size="sm">

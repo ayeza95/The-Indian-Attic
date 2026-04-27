@@ -2,7 +2,7 @@ export const ADMIN_CREDENTIALS = [
     {
         email: 'admin@indianattic.com',
         password: 'admin123',
-        name: 'Super Admin',
+        name: 'Admin',
     },
     {
         email: 'vikash@admin.com',

@@ -24,8 +24,14 @@ export async function GET(req: NextRequest) {
             .sort({ lastMessageAt: -1 })
             .lean();
 
+        const processedConversations = conversations.map((conv: any) => ({
+            ...conv,
+            buyer: conv.buyer?.role === 'admin' ? { ...conv.buyer, name: 'Admin' } : conv.buyer,
+            seller: conv.seller?.role === 'admin' ? { ...conv.seller, name: 'Admin' } : conv.seller,
+        }));
+
         return NextResponse.json({
-            conversations
+            conversations: processedConversations
         }, { status: 200 });
     } catch (error: any) {
         console.error('Fetch conversations error:', error);

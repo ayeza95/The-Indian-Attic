@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Linkedin, Heart, Users, Globe, Github } from 'lucide-react';
+import { Linkedin, Heart, Users, Globe, Github, Instagram, Twitter } from 'lucide-react';
 
 export default function AboutPage() {
     return (
@@ -43,17 +43,31 @@ export default function AboutPage() {
                                 <p className="text-story italic text-heritage-700">
                                     "I founded The Indian Attic with a simple belief: our heritage is too precious to be forgotten in dusty corners. It belongs in our living rooms, our daily lives, and our hearts."
                                 </p>
-                                <div className="flex justify-center pt-4 gap-4">
-                                    <Link href="https://www.linkedin.com/in/ayeza-fatima-b80544325/" target="_blank">
-                                        <Button variant="outline" className="gap-2 border-heritage-200 text-heritage-700 hover:text-heritage-900">
-                                            <Linkedin className="h-4 w-4" /> Connect on LinkedIn
-                                        </Button>
-                                    </Link>
-                                    <Link href="https://github.com/ayeza95" target="_blank">
-                                        <Button variant="outline" className="gap-2 border-heritage-200 text-heritage-700 hover:text-heritage-900 px-6">
-                                            <Github className="h-4 w-4" /> Follow on Github
-                                        </Button>
-                                    </Link>
+                                <div className="flex flex-col gap-3 pt-4 w-full items-center">
+                                    <div className="grid grid-cols-2 gap-3 w-auto">
+                                        <Link href="https://www.linkedin.com/in/ayeza-fatima-b80544325/" target="_blank">
+                                            <Button variant="outline" className="w-full gap-2 border-heritage-200 text-heritage-700 hover:text-heritage-900 px-4 text-sm">
+                                                <Linkedin className="h-4 w-4" /> LinkedIn
+                                            </Button>
+                                        </Link>
+                                        <Link href="https://github.com/ayeza95" target="_blank">
+                                            <Button variant="outline" className="w-full gap-2 border-heritage-200 text-heritage-700 hover:text-heritage-900 px-4 text-sm">
+                                                <Github className="h-4 w-4" /> Github
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-3 w-auto">
+                                        <Link href="https://instagram.com/theindianattic_" target="_blank">
+                                            <Button variant="outline" className="w-full gap-2 border-heritage-200 text-heritage-700 hover:text-heritage-900 px-4 text-sm">
+                                                <Instagram className="h-4 w-4" /> Instagram
+                                            </Button>
+                                        </Link>
+                                        <Link href="#" target="_blank">
+                                            <Button variant="outline" className="w-full gap-2 border-heritage-200 text-heritage-700 hover:text-heritage-900 px-4 text-sm">
+                                                <Twitter className="h-4 w-4" /> Twitter
+                                            </Button>
+                                        </Link>
+                                    </div>
                                 </div>
                             </CardContent>
                         </Card>

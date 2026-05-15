@@ -26,7 +26,14 @@ export async function GET(
 
         const order = await Order.findById(params.orderId)
             .populate('buyer', 'name email')
-            .populate('items.product', 'name images seller');
+            .populate({
+                path: 'items.product',
+                select: 'name images seller',
+                populate: {
+                    path: 'seller',
+                    select: 'name businessName',
+                },
+            });
 
         if (!order) {
             return NextResponse.json({ error: 'Order not found' }, { status: 404 });

@@ -105,7 +105,7 @@ export default function BuyerOrderDetailPage({ params }: { params: Promise<{ ord
                                     <div key={idx} className="flex flex-col sm:flex-row gap-4 py-4 border-b last:border-0">
                                         <div className="flex-1">
                                             <h3 className="font-bold text-lg text-heritage-900">{item.productName}</h3>
-                                            <p className="text-heritage-600 text-sm mb-2">Sold by: {item.product?.seller?.businessName || 'Artisan'}</p>
+                                            <p className="text-heritage-600 text-sm mb-2">Sold by: {item.product?.seller?.businessName || item.product?.seller?.name || 'Artisan'}</p>
                                             <div className="flex items-center gap-4 text-sm mt-2">
                                                 <Badge variant="secondary">Qty: {item.quantity}</Badge>
                                                 <span className="font-mono">{formatPrice(item.price)} each</span>

@@ -171,19 +171,33 @@ export default function AdminMessagesPage() {
                         </CardHeader>
                         <CardContent className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
                             {selectedConversation.messages.map((msg, idx) => {
-                                const isArtisan = msg.sender === selectedConversation.seller._id;
-                                // If viewing from artisan list, artisan is 'me' (right). If buyer list, buyer is 'me' (right).
-                                const isRightSide = conversationView === 'artisan' ? isArtisan : !isArtisan;
+                                // Identify who sent the message by matching sender ID to known participants
+                                const sellerIsSender = msg.sender === selectedConversation.seller._id;
+                                const buyerIsSender = msg.sender === selectedConversation.buyer._id;
+
+                                // Derive label from the matched participant's role
+                                let senderLabel = 'Admin';
+                                if (sellerIsSender) {
+                                    senderLabel = selectedConversation.seller.role === 'admin' ? 'Admin' : 'Artisan';
+                                } else if (buyerIsSender) {
+                                    senderLabel = selectedConversation.buyer.role === 'admin' ? 'Admin' : 'Buyer';
+                                }
+
+                                // Align: admin/artisan messages on right when in artisan view; buyer messages on right in buyer view
+                                const isRightSide = conversationView === 'artisan' ? sellerIsSender : buyerIsSender;
+
                                 return (
                                     <div key={idx} className={`flex ${isRightSide ? 'justify-end' : 'justify-start'}`}>
                                         <div className={`max-w-[80%] rounded-lg p-3 ${
-                                            isRightSide 
-                                                ? 'bg-heritage-600 text-white'
-                                                : 'bg-white border border-gray-200 text-gray-900'
+                                            senderLabel === 'Admin'
+                                                ? 'bg-purple-600 text-white'
+                                                : isRightSide 
+                                                    ? 'bg-heritage-600 text-white'
+                                                    : 'bg-white border border-gray-200 text-gray-900'
                                         }`}>
                                             <div className="flex items-center gap-2 mb-1">
                                                 <span className="text-xs font-semibold opacity-75">
-                                                    {isArtisan ? 'Artisan' : 'Buyer'}
+                                                    {senderLabel}
                                                 </span>
                                                 <span className="text-[10px] opacity-50">
                                                     {new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}

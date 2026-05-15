@@ -5,6 +5,7 @@ import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
 import Product from '@/models/Product';
 import Order from '@/models/Order';
+import '@/models/State'; // Register State model so originState populate works
 
 export async function GET(
     req: NextRequest,
@@ -49,19 +50,27 @@ export async function GET(
             try {
                 const products = await Product.find({ seller: new mongoose.Types.ObjectId(userId) })
                     .populate('state', 'name')
-                    .sort({ createdAt: -1 });
+                    .sort({ createdAt: -1 })
+                    .lean();
                 additionalData.products = products;
             } catch (prodError) {
                 console.error('Error fetching products:', prodError);
+                additionalData.products = [];
             }
         } else if (user.role === 'buyer') {
             try {
                 const orders = await Order.find({ buyer: userId })
-                    .populate('items.product', 'name images')
-                    .sort({ createdAt: -1 });
+                    .populate({
+                        path: 'items.product',
+                        select: 'name images seller',
+                        populate: { path: 'seller', select: 'name businessName' },
+                    })
+                    .sort({ createdAt: -1 })
+                    .lean();
                 additionalData.orders = orders;
             } catch (orderError) {
                 console.error('Error fetching orders:', orderError);
+                additionalData.orders = [];
             }
         }
 
